@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <title>Google Maps Multiple Markers</title> 
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2AzHgsBOOR39xVgfum2FXooqON03VJrc" 
+          type="text/javascript"></script>
+</head> 
+<body>
+  <div id="map" style="width: 500px; height: 400px;"></div>
+
+  <script type="text/javascript">
+  
+  
+	const params = new URLSearchParams(window.location.search);
+	const raw = decodeURIComponent(params.get("data"));
+	
+	
+	let locations = [];
+	
+	try {
+	   locations = eval(raw); // Chỉ dùng nếu bạn chắc chắn chuỗi là an toàn
+	  console.log(locations);
+	} catch (e) {
+	  console.error("Lỗi khi eval:", e);
+	}
+
+
+	//console.error(raw);
+	//const locations = JSON.parse(raw); // hoặc JSON.parse nếu chuỗi là JSON hợp lệ
+
+   
+	/*var locations = [
+	  ['123#', 10.776944, 106.695274, 1],
+	  ['222#', 10.770497, 106.69233, 5],
+	  ['789#', 10.7908, 106.7056, 8],
+	  ['C0000001', 10.76332824, 106.6558465, 10],
+	  ['567', 10.76390333, 106.65618833, 12]
+	];
+	*/
+
+
+    
+    var map = new google.maps.Map(document.getElementById('map'), {
+      //zoom: 10,
+       //center: new google.maps.LatLng(10.776944, 106.695274),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+	
+	
+	
+	
+	const bounds = new google.maps.LatLngBounds();
+
+	
+    
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+    
+    for (i = 0; i < locations.length; i++) {  
+	const position = new google.maps.LatLng(locations[i][1], locations[i][2]);
+    const   marker = new google.maps.Marker({
+        position: position,
+        map: map
+      });
+	  bounds.extend(position);
+      
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+	  
+	  map.fitBounds(bounds);
+	  
+
+    }
+  </script>
+</body>
+</html>
