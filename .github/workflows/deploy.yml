@@ -1,4 +1,4 @@
-name: Replace API Key and Deploy
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Thêm quyền ghi nội dung
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,8 +18,12 @@ jobs:
         run: |
           sed -i "s|\${GOOGLE_MAPS_API_KEY}|${{ secrets.GOOGLE_MAPS_API_KEY }}|g" index.html
 
+      - name: Debug - Check index.html content
+        run: cat index.html
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
+          publish_branch: gh-pages
