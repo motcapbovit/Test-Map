@@ -1,4 +1,4 @@
-name: Deploy Site
+name: api key add
 
 on:
   push:
