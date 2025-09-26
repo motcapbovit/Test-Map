@@ -25,10 +25,8 @@
 
   <script type="text/javascript">
 
-
     const params = new URLSearchParams(window.location.search);
     const raw = decodeURIComponent(params.get("data"));
-
 
     let locations = [];
 
@@ -39,10 +37,8 @@
       console.error("Lỗi khi eval:", e);
     }
 
-
     //console.error(raw);
     //const locations = JSON.parse(raw); // hoặc JSON.parse nếu chuỗi là JSON hợp lệ
-
 
     /*var locations = [
       ['123#', 10.776944, 106.695274, 1],
@@ -53,20 +49,13 @@
     ];
     */
 
-
-
     var map = new google.maps.Map(document.getElementById('map'), {
       //zoom: 10,
       //center: new google.maps.LatLng(10.776944, 106.695274),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
-
-
-
     const bounds = new google.maps.LatLngBounds();
-
-
 
     var infowindow = new google.maps.InfoWindow();
 
@@ -88,8 +77,6 @@
       })(marker, i));
 
       map.fitBounds(bounds);
-
-
     }
   </script>
 </body>
